@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 function BoilingVerdict(props) {
   if (props.celsius >= 100) {
     return <p>The water would boil.</p>;
@@ -6,20 +6,27 @@ function BoilingVerdict(props) {
   return <p>The water would not boil.</p>;
 }
 
-function App(props) {
-  const [value, setState] = useState();
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.state = { value: "" };
+  }
 
-  const handleChange = (e) => {
-    setState(e.target.value);
-  };
+  handleChange(e) {
+    this.setState({ value: e.target.value });
+  }
 
-  return (
-    <fieldset>
-      <legend>Enter temperature in Celsius:</legend>
-      <input value={value} onChange={handleChange} />
-      <BoilingVerdict celsius={parseFloat(value)} />
-    </fieldset>
-  );
+  render() {
+    const value = this.state.value;
+    return (
+      <fieldset>
+        <legend>Enter temperature in Celsius:</legend>
+        <input value={value} onChange={this.handleChange} />
+        <BoilingVerdict celsius={parseFloat(value)} />
+      </fieldset>
+    );
+  }
 }
 
 export default App;
